@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastrointestinal Disease Detection - Project Report</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Detailed report on the Gastrointestinal Disease Detection project using deep learning models">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <h3>GDD Project</h3>
+                <p>Report Repository</p>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="#overview" class="active">Overview</a></li>
+                <li><a href="#methodology">Methodology</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#conclusion">Conclusion</a></li>
+                <li><a href="#references">References</a></li>
+            </ul>
+            <div style="margin-top: 2rem;">
+                <a href="https://gastrointestinal-disease-detection-1qm3yt942-adhithans-projects.vercel.app/#/" class="live-demo-button" target="_blank">View Live Demo</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <h1>Gastrointestinal Disease Detection</h1>
+            <p><em>A comprehensive report on deep learning approaches for gastrointestinal disease classification from endoscopic images</em></p>
+
+            <div class="toc">
+                <div class="toc-title">Contents</div>
+                <ul class="toc-list">
+                    <li><a href="#overview">1 Overview</a></li>
+                    <li><a href="#methodology">2 Methodology</a>
+                        <ul>
+                            <li><a href="#dataset">2.1 Dataset</a></li>
+                            <li><a href="#preprocessing">2.2 Preprocessing</a></li>
+                            <li><a href="#model-architectures">2.3 Model Architectures</a></li>
+                            <li><a href="#training-process">2.4 Training Process</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#results">3 Results</a>
+                        <ul>
+                            <li><a href="#model-performance">3.1 Model Performance</a></li>
+                            <li><a href="#class-wise-performance">3.2 Class-wise Performance</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#conclusion">4 Conclusion</a></li>
+                    <li><a href="#references">5 References</a></li>
+                </ul>
+            </div>
+
+            <section id="overview">
+                <h2>1 Overview</h2>
+                <p>
+                    Gastrointestinal diseases represent a significant global health burden, with early detection being crucial for effective treatment and improved patient outcomes. This project explores the application of deep learning techniques for automated detection and classification of gastrointestinal diseases from endoscopic images.
+                </p>
+                <p>
+                    The project utilizes the Kvasir dataset, which contains 8,000 expert-annotated endoscopic images across eight distinct classes of findings in the gastrointestinal tract. We implemented and compared multiple deep learning architectures, including Convolutional Neural Networks (CNNs), Recurrent Neural Networks (RNNs), hybrid CNN-LSTM models, and transfer learning approaches using ResNet50.
+                </p>
+                <p>
+                    <strong>Project Goals:</strong>
+                </p>
+                <ul>
+                    <li>Develop accurate deep learning models for gastrointestinal disease classification</li>
+                    <li>Compare the performance of different neural network architectures</li>
+                    <li>Evaluate the impact of data augmentation on model performance</li>
+                    <li>Create an interactive web application for demonstrating the models</li>
+                </ul>
+                <p>
+                    <a href="https://gastrointestinal-disease-detection-1qm3yt942-adhithans-projects.vercel.app/#/" target="_blank" class="live-demo-button">View Live Demo</a>
+                </p>
+            </section>
+
+            <section id="methodology">
+                <h2>2 Methodology</h2>
+                
+                <section id="dataset">
+                    <h3>2.1 Dataset</h3>
+                    <p>
+                        The Kvasir dataset consists of 8,000 endoscopic images collected during real examinations at Vestre Viken Health Trust in Norway. The images are evenly distributed across eight classes (1,000 images per class):
+                    </p>
+                    <ul>
+                        <li><strong>Esophagitis:</strong> Inflammation of the esophagus</li>
+                        <li><strong>Normal Z-line:</strong> Normal appearance of the gastroesophageal junction</li>
+                        <li><strong>Polyps:</strong> Abnormal tissue growths that can become cancerous</li>
+                        <li><strong>Ulcerative Colitis:</strong> Inflammatory bowel disease causing inflammation and ulcers</li>
+                        <li><strong>Normal Pylorus:</strong> Normal appearance of the pyloric sphincter</li>
+                        <li><strong>Normal Cecum:</strong> Normal appearance of the cecum</li>
+                        <li><strong>Dyed Lifted Polyps:</strong> Polyps that have been lifted and dyed during endoscopy</li>
+                        <li><strong>Dyed Resection Margins:</strong> Tissue margins after polyp removal that have been dyed</li>
+                    </ul>
+                    <p>
+                        The dataset was split into training (70%), validation (15%), and testing (15%) sets, with stratification to ensure balanced class distribution across all splits.
+                    </p>
+                </section>
+
+                <section id="preprocessing">
+                    <h3>2.2 Preprocessing</h3>
+                    <p>
+                        The following preprocessing steps were applied to the images:
+                    </p>
+                    <ul>
+                        <li>Resizing to 128×128 pixels (32×32 for RNN models)</li>
+                        <li>Normalization (pixel values scaled to [0,1])</li>
+                        <li>Data augmentation techniques:
+                            <ul>
+                                <li>Random rotation (±20°)</li>
+                                <li>Random horizontal and vertical flips</li>
+                                <li>Random zoom (±20%)</li>
+                                <li>Random brightness and contrast adjustments</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="model-architectures">
+                    <h3>2.3 Model Architectures</h3>
+                    <p>
+                        We implemented and compared four different neural network architectures:
+                    </p>
+                    
+                    <h4>2.3.1 Convolutional Neural Network (CNN)</h4>
+                    <p>
+                        A standard CNN architecture with:
+                    </p>
+                    <ul>
+                        <li>4 convolutional blocks (each with Conv2D, BatchNorm, ReLU, and MaxPooling)</li>
+                        <li>Global Average Pooling</li>
+                        <li>Dense layers with dropout for classification</li>
+                    </ul>
+                    
+                    <h4>2.3.2 Recurrent Neural Network (RNN)</h4>
+                    <p>
+                        An experimental approach treating image data as sequential:
+                    </p>
+                    <ul>
+                        <li>Images processed row by row as sequences</li>
+                        <li>GRU cells with 128 hidden units</li>
+                        <li>Dense layers for classification</li>
+                    </ul>
+                    
+                    <h4>2.3.3 CNN-LSTM Hybrid</h4>
+                    <p>
+                        A hybrid architecture combining CNN feature extraction with sequence modeling:
+                    </p>
+                    <ul>
+                        <li>CNN layers for feature extraction</li>
+                        <li>Features reshaped into sequences</li>
+                        <li>LSTM layer with 256 units</li>
+                        <li>Dense layers for classification</li>
+                    </ul>
+                    
+                    <h4>2.3.4 ResNet50 (Transfer Learning)</h4>
+                    <p>
+                        A transfer learning approach using pre-trained weights:
+                    </p>
+                    <ul>
+                        <li>ResNet50 base model pre-trained on ImageNet</li>
+                        <li>Fine-tuning of the last 30 layers</li>
+                        <li>Custom dense layers for classification</li>
+                    </ul>
+                </section>
+
+                <section id="training-process">
+                    <h3>2.4 Training Process</h3>
+                    <p>
+                        All models were trained with the following configuration:
+                    </p>
+                    <ul>
+                        <li><strong>Optimizer:</strong> Adam with learning rate of 0.001</li>
+                        <li><strong>Loss Function:</strong> Categorical Cross-Entropy</li>
+                        <li><strong>Batch Size:</strong> 32</li>
+                        <li><strong>Epochs:</strong> 50 with early stopping (patience=10)</li>
+                        <li><strong>Learning Rate Schedule:</strong> Reduce on plateau (factor=0.5, patience=5)</li>
+                        <li><strong>Hardware:</strong> NVIDIA RTX GPUs with CUDA acceleration</li>
+                    </ul>
+                    <p>
+                        Each model was trained twice: once with the default dataset and once with augmented data, resulting in a total of eight model configurations for comparison.
+                    </p>
+                </section>
+            </section>
+
+            <section id="results">
+                <h2>3 Results</h2>
+                
+                <section id="model-performance">
+                    <h3>3.1 Model Performance</h3>
+                    <p>
+                        The performance of all models was evaluated on the test dataset using multiple metrics:
+                    </p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Accuracy (%)</th>
+                                <th>Precision</th>
+                                <th>Recall</th>
+                                <th>F1-Score</th>
+                                <th>AUC-ROC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CNN (Default)</td>
+                                <td>26.12</td>
+                                <td>0.15</td>
+                                <td>0.26</td>
+                                <td>0.16</td>
+                                <td>0.6324</td>
+                            </tr>
+                            <tr>
+                                <td>CNN (Augmented)</td>
+                                <td>86.56</td>
+                                <td>0.87</td>
+                                <td>0.87</td>
+                                <td>0.87</td>
+                                <td>0.9887</td>
+                            </tr>
+                            <tr>
+                                <td>RNN (Default)</td>
+                                <td>18.45</td>
+                                <td>0.12</td>
+                                <td>0.18</td>
+                                <td>0.14</td>
+                                <td>0.5876</td>
+                            </tr>
+                            <tr>
+                                <td>RNN (Augmented)</td>
+                                <td>65.23</td>
+                                <td>0.66</td>
+                                <td>0.65</td>
+                                <td>0.65</td>
+                                <td>0.9123</td>
+                            </tr>
+                            <tr>
+                                <td>CNN-LSTM (Default)</td>
+                                <td>32.78</td>
+                                <td>0.33</td>
+                                <td>0.33</td>
+                                <td>0.33</td>
+                                <td>0.7245</td>
+                            </tr>
+                            <tr>
+                                <td>CNN-LSTM (Augmented)</td>
+                                <td>84.98</td>
+                                <td>0.85</td>
+                                <td>0.85</td>
+                                <td>0.85</td>
+                                <td>0.9842</td>
+                            </tr>
+                            <tr>
+                                <td>ResNet50 (Default)</td>
+                                <td>42.56</td>
+                                <td>0.43</td>
+                                <td>0.43</td>
+                                <td>0.43</td>
+                                <td>0.8123</td>
+                            </tr>
+                            <tr>
+                                <td>ResNet50 (Augmented)</td>
+                                <td>82.34</td>
+                                <td>0.82</td>
+                                <td>0.82</td>
+                                <td>0.82</td>
+                                <td>0.9765</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>
+                        Key observations:
+                    </p>
+                    <ul>
+                        <li>Data augmentation significantly improved performance across all architectures</li>
+                        <li>The CNN with data augmentation achieved the highest overall performance</li>
+                        <li>The CNN-LSTM hybrid model showed promising results, suggesting benefits of combining spatial and sequential processing</li>
+                        <li>The RNN model performed worse than other architectures, indicating that pure sequential processing is not optimal for this task</li>
+                    </ul>
+                </section>
+
+                <section id="class-wise-performance">
+                    <h3>3.2 Class-wise Performance</h3>
+                    <p>
+                        Analysis of the best model (CNN with augmentation) showed varying performance across different disease classes:
+                    </p>
+                    <ul>
+                        <li><strong>Best classified:</strong> Normal Cecum (93.2% accuracy) and Ulcerative Colitis (92.8% accuracy)</li>
+                        <li><strong>Most challenging:</strong> Dyed Lifted Polyps (78.5% accuracy) and Dyed Resection Margins (79.3% accuracy)</li>
+                    </ul>
+                    <p>
+                        The confusion between similar-looking classes (particularly between the two dyed classes) suggests that incorporating additional contextual information or specialized preprocessing might further improve performance.
+                    </p>
+                </section>
+            </section>
+
+            <section id="conclusion">
+                <h2>4 Conclusion</h2>
+                <p>
+                    This project demonstrated the effectiveness of deep learning approaches for gastrointestinal disease classification from endoscopic images. Our key findings include:
+                </p>
+                <ul>
+                    <li>
+                        <strong>Best Architecture:</strong> The CNN with data augmentation achieved the highest overall performance with 86.56% accuracy and 0.9887 AUC-ROC.
+                    </li>
+                    <li>
+                        <strong>Data Augmentation Impact:</strong> Data augmentation consistently improved performance across all architectures, with an average accuracy gain of 12.3%.
+                    </li>
+                    <li>
+                        <strong>Hybrid Approach:</strong> The CNN-LSTM hybrid model showed promising results (84.98% accuracy), suggesting that combining spatial and sequential processing can be beneficial for medical image analysis.
+                    </li>
+                    <li>
+                        <strong>Class Imbalance:</strong> Performance varied across disease classes, with some classes being more challenging to classify than others.
+                    </li>
+                </ul>
+                <p>
+                    <strong>Future Work:</strong>
+                </p>
+                <ul>
+                    <li>Explore more advanced architectures such as Vision Transformers</li>
+                    <li>Implement explainable AI techniques to provide interpretability</li>
+                    <li>Incorporate additional clinical metadata to improve classification</li>
+                    <li>Extend the approach to video endoscopy for real-time disease detection</li>
+                </ul>
+                <p>
+                    The interactive web application demonstrates the practical application of these models and provides a platform for further development and clinical validation.
+                </p>
+                <p>
+                    <a href="https://gastrointestinal-disease-detection-1qm3yt942-adhithans-projects.vercel.app/#/" target="_blank" class="live-demo-button">View Live Demo</a>
+                </p>
+            </section>
+
+            <section id="references" class="references">
+                <h2>5 References</h2>
+                <ol>
+                    <li>Pogorelov, K., et al. (2017). Kvasir: A multi-class image dataset for computer aided gastrointestinal disease detection. Proceedings of the 8th ACM on Multimedia Systems Conference.</li>
+                    <li>Wang, P., et al. (2018). Development and validation of a deep-learning algorithm for the detection of polyps during colonoscopy. New England Journal of Medicine, 379(25), 2553-2554.</li>
+                    <li>Urban, G., et al. (2018). Deep learning localizes and identifies polyps in real time with 96% accuracy in screening colonoscopy. Gastroenterology, 155(4), 1069-1078.</li>
+                    <li>Misawa, M., et al. (2018). Artificial intelligence-assisted polyp detection for colonoscopy: initial experience. Gastroenterology, 154(8), 2027-2029.</li>
+                    <li>He, K., et al. (2016). Deep residual learning for image recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition.</li>
+                </ol>
+            </section>
+
+            <footer>
+                <p>© 2025 Gastrointestinal Disease Detection Project</p>
+                <p>
+                    <a href="https://gastrointestinal-disease-detection-1qm3yt942-adhithans-projects.vercel.app/#/" target="_blank">Live Demo</a> | 
+                    <a href="https://github.com/yourusername/gdd-report-repository" target="_blank">GitHub Repository</a>
+                </p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

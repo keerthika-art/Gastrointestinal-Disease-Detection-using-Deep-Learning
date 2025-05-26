@@ -1,0 +1,277 @@
+/* Wikipedia-inspired styling for GDD Report */
+
+/* Base styles */
+:root {
+  --main-bg-color: #ffffff;
+  --main-text-color: #202122;
+  --sidebar-bg-color: #f8f9fa;
+  --border-color: #a2a9b1;
+  --link-color: #0645ad;
+  --link-visited-color: #0b0080;
+  --link-active-color: #faa700;
+  --heading-color: #000000;
+  --table-header-bg: #eaecf0;
+  --table-border-color: #a2a9b1;
+  --code-bg-color: #f8f9fa;
+  --blockquote-border-color: #c8ccd1;
+  --nav-active-bg: #eaf3ff;
+  --font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Lato, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  line-height: 1.6;
+  color: var(--main-text-color);
+  background-color: var(--main-bg-color);
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar styles */
+.sidebar {
+  width: 220px;
+  background-color: var(--sidebar-bg-color);
+  border-right: 1px solid var(--border-color);
+  padding: 1rem;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.sidebar-logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+.sidebar-nav {
+  list-style-type: none;
+}
+
+.sidebar-nav li {
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-nav a {
+  display: block;
+  padding: 0.5rem;
+  color: var(--link-color);
+  text-decoration: none;
+  border-radius: 2px;
+}
+
+.sidebar-nav a:hover {
+  background-color: var(--nav-active-bg);
+}
+
+.sidebar-nav a.active {
+  background-color: var(--nav-active-bg);
+  font-weight: bold;
+}
+
+/* Main content styles */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 220px;
+  max-width: 1000px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  color: var(--heading-color);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: normal;
+}
+
+h1 {
+  font-size: 1.8rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.3rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.2rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+h4 {
+  font-size: 1.1rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--link-visited-color);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  color: var(--link-active-color);
+}
+
+/* Table styles */
+table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid var(--table-border-color);
+  padding: 0.5rem;
+}
+
+th {
+  background-color: var(--table-header-bg);
+  text-align: left;
+}
+
+/* Code and pre styles */
+code {
+  font-family: monospace;
+  background-color: var(--code-bg-color);
+  padding: 0.1rem 0.3rem;
+  border-radius: 2px;
+}
+
+pre {
+  background-color: var(--code-bg-color);
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+/* Blockquote styles */
+blockquote {
+  border-left: 3px solid var(--blockquote-border-color);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #54595d;
+}
+
+/* Image styles */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
+.image-caption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #54595d;
+  margin-top: 0.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+/* Live demo button */
+.live-demo-button {
+  display: inline-block;
+  background-color: #36c;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  font-weight: bold;
+  text-decoration: none !important;
+}
+
+.live-demo-button:hover {
+  background-color: #447ff5;
+}
+
+/* Table of contents */
+.toc {
+  background-color: var(--sidebar-bg-color);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+  margin: 1rem 0;
+  width: 60%;
+}
+
+.toc-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.toc-list {
+  list-style-type: none;
+}
+
+.toc-list li {
+  margin-bottom: 0.3rem;
+}
+
+.toc-list a {
+  text-decoration: none;
+}
+
+/* References section */
+.references {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: 1rem;
+}
+
+.references ol {
+  padding-left: 2rem;
+}
+
+.references li {
+  margin-bottom: 0.5rem;
+}
